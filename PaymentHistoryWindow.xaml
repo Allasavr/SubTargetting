@@ -1,0 +1,139 @@
+﻿<Window x:Class="SubTargetting.PaymentHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SubTargetting"
+        mc:Ignorable="d"
+        Title="Трекер подписок" Height="337" Width="800" FontFamily="Times New Roman" FontSize="16" WindowStyle="None" WindowStartupLocation="CenterScreen" >
+ 
+    <Grid Margin="0,3,0,0" RenderTransformOrigin="0.501,0.511">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFB1CACF"/>
+                <GradientStop Color="#FFD9EFF4" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Label HorizontalAlignment="Center" VerticalAlignment="Top" Width="780" Background="#FFA4C0C6" Height="35" MouseDown="Label_MouseDown">
+            <Image Name="ReturnButton" Height="30" Width="28" HorizontalAlignment="Center" VerticalAlignment="Top" MouseDown="ReturnButton_MouseDown">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source\icons8-стрелка-50.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, ElementName= ReturnButton}"
+                             Value="True">
+                                <Setter Property="Source" Value="Source\icons8-стрелка-50 (1).png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+        </Label>
+        <Polygon Fill="#FF384659" Opacity="0.5" Points="260,0,275,7,519,7,534,0"/>
+        <Image Name="MinButton2" HorizontalAlignment="Left" 
+               Height="30" Margin="722,5,0,0" VerticalAlignment="Top" Width="28" MouseDown="MinButton2_MouseDown" >
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="Source\8685988_ic_fluent_line_horizontal_filled_icon.png"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName= MinButton2}"
+                                     Value="True">
+                            <Setter Property="Source" Value="Source\icons8-горизонтальная-линия-50.png"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <Image x:Name="ExitButton2" HorizontalAlignment="Left" 
+            Height="30" Margin="755,4,0,0" VerticalAlignment="Top" Width="30" MouseDown="ExitButton2_MouseDown" >
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Source" Value="Source\icons8-крестик-78 (2).png"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=ExitButton2}"
+                            Value="True">
+                            <Setter Property="Source" Value="Source/icons8-крестик-78 (3).png"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <DataGrid Name="PayHis" AutoGenerateColumns="False" Margin="10,40,15,10" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Подписка" Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Arial"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Тип подписки" Binding="{Binding Type}"  Width="210">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Arial" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Конечная дата" Binding="{Binding End}"  Width="120">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Arial"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Платёж" Binding="{Binding Pay}"  Width="100">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Arial"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Валюта" Binding="{Binding PType}"  Width="65">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Arial"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Выбранная валюта" Binding="{Binding MainCurrency}"  Width="145">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontFamily" Value="Arial"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+    
+</Window>
