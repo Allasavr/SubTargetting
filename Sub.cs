@@ -62,7 +62,6 @@ namespace SubTargetting
             this.endDate = endDate;
             this.payment = payment;
             this.payType = payType;
-
         }
     }
 }
