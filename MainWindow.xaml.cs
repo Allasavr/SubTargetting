@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,17 +19,8 @@ namespace SubTargetting
         public MainWindow()
         {
             InitializeComponent();
-            db = new AppContext();
+            db= new AppContext();
 
-            // Загружаем данные из реестра
-            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(@"Software\MyApp\Notifications");
-            HashSet<int> notifiedSubIds = new HashSet<int>();
-
-            foreach (string valueName in registryKey.GetValueNames())
-            {
-                int subId = Convert.ToInt32(valueName);
-                notifiedSubIds.Add(subId);
-            }
             List<Sub> subs = db.Subs.ToList();
             DateTime today = DateTime.Today;
 
@@ -42,53 +32,42 @@ namespace SubTargetting
                 {
                     if (remindDate.Date == today.AddDays(1))
                     {
-                        // Напоминание за день до окончания подписки
                         MessageBox.Show($"Ваша подписка на {sub.SubName} кончится уже завтра!");
                     }
-                    else if (remindDate.Date < today && !notifiedSubIds.Contains(sub.id))
+                    else if (remindDate.Date < today)
                     {
-                        // Уведомление о просроченной подписке, если оно еще не отправлено
                         MessageBox.Show($"Ваша подписка на {sub.SubName} уже закончилась!");
-
-                        // Добавляем ID подписки в реестр
-                        registryKey.SetValue(sub.id.ToString(), 1);
-
-                        // Обновляем список показанных уведомлений
-                        notifiedSubIds.Add(sub.id);
                     }
                 }
             }
-
-            registryKey.Close();
+        }
+        private void MyTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (DataTextBox.Text == "YYYY-MM-DD")
+            {
+                DataTextBox.Text = "";
+                DataTextBox.Foreground = new SolidColorBrush(Colors.Black); 
+            }
         }
 
-        private void MyTextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void MyTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(DataTextBox.Text))
             {
-                if (DataTextBox.Text == "YYYY-MM-DD")
-                {
-                    DataTextBox.Text = "";
-                    DataTextBox.Foreground = new SolidColorBrush(Colors.Black); 
-                }
+                DataTextBox.Text = "YYYY-MM-DD";
+                DataTextBox.Foreground = new SolidColorBrush(Colors.LightGray); 
             }
+        }
 
-            private void MyTextBox_LostFocus(object sender, RoutedEventArgs e)
-            {
-                if (string.IsNullOrWhiteSpace(DataTextBox.Text))
-                {
-                    DataTextBox.Text = "YYYY-MM-DD";
-                    DataTextBox.Foreground = new SolidColorBrush(Colors.LightGray); 
-                }
-            }
+        private void Button_MouseEnter(object sender, MouseEventArgs e)
+        {
+            AddButton.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFC4E8F4");
+        }
 
-            private void Button_MouseEnter(object sender, MouseEventArgs e)
-            {
-                AddButton.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FFC4E8F4");
-            }
-
-            private void Button_MouseLeave(object sender, MouseEventArgs e)
-            {
-                AddButton.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF95E0F9");
-            }
+        private void Button_MouseLeave(object sender, MouseEventArgs e)
+        {
+            AddButton.Background = (SolidColorBrush)new BrushConverter().ConvertFromString("#FF95E0F9");
+        }
         
         private string CalculateData(DateTime date, string s)
         {
