@@ -1,4 +1,3 @@
-using Microsoft.Win32
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,15 +20,7 @@ namespace SubTargetting
         {
             InitializeComponent();
             db= new AppContext();
-            // Загружаем данные из реестра
-            RegistryKey registryKey = Registry.CurrentUser.CreateSubKey(@"Software\MyApp\Notifications");
-            HashSet<int> notifiedSubIds = new HashSet<int>();
             
-            foreach (string valueName in registryKey.GetValueNames())
-            {
-                int subId = Convert.ToInt32(valueName);
-                notifiedSubIds.Add(subId);
-            }
             List<Sub> subs = db.Subs.ToList();
             DateTime today = DateTime.Today;
             
@@ -44,20 +35,13 @@ namespace SubTargetting
                         // Напоминание за день до окончания подписки
                         MessageBox.Show($"Ваша подписка на {sub.SubName} кончится уже завтра!");
                     }
-                    else if (remindDate.Date < today && !notifiedSubIds.Contains(sub.id))
+                    else if (remindDate.Date < today)
                     {
                         // Уведомление о просроченной подписке, если оно еще не отправлено
                         MessageBox.Show($"Ваша подписка на {sub.SubName} уже закончилась!");
-            
-                        // Добавляем ID подписки в реестр
-                        registryKey.SetValue(sub.id.ToString(), 1);
-            
-                        // Обновляем список показанных уведомлений
-                        notifiedSubIds.Add(sub.id);
                     }
                 }
             }
-            registryKey.Close();
         }
         
         private void MyTextBox_GotFocus(object sender, RoutedEventArgs e)
